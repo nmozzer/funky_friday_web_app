@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block content %}
+
+<div>{{system.name}}</div>
+<div>{{system.system_health}}</div>
+<div>{{system.priority}}</div>
+<div>{{system.language}}</div>
+<div>{{system.tech_stack}}</div>
+<div>{{system.description}}</div>
+
+{% for improvement in improvements %}
+<div>{{improvement.name}}</div>
+<div>{{improvement.description}}</div>
+<div>{{improvement.beans}}</div>
+{% endfor %}
+
+<a href="{{url_for('system.systems')}}">Back to System</a>
+
+{% endblock %}

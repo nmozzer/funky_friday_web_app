@@ -1,4 +1,4 @@
 {% extends "base.html" %} {% block content %}
 
-<div class="notification is-danger">{{ messages[0] }}. View <a href="{{ url_for('system.system') }}">Systems</a>.</div>
+<div class="notification is-danger"><a href="{{ url_for('system.systems') }}">View Systems</a></div>
 {% endblock %}

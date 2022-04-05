@@ -1,28 +1,47 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import login_required, current_user
+from flask_login import current_user
 from .. import db
-from ..models import System
+from ..models import System, Improvement
 from sqlalchemy import asc
 
 system = Blueprint('system', __name__)
 
-
-@system.route('/system')
-def system():
+@system.route('/systems')
+def systems():
     if not current_user.is_authenticated:
         return redirect(url_for('auth.login'))
+
+    if request.args.get('system_add'):
+        flash('System Successfully Added')
+    
+    if request.args.get('system_edit'):
+        flash('System Successfully Edited')
+    
+    if request.args.get('system_delete'):
+        flash('System Successfully Deleted')
+
 
     all_systems = db.session.query(System).order_by(asc(System.priority))
 
-    return render_template('system.html', systems=all_systems)
+    return render_template('systems.html', systems=all_systems)
 
-@system.route('/system/create_system')
-def create_system():
+@system.route('/systems/view')
+def view():
     if not current_user.is_authenticated:
         return redirect(url_for('auth.login'))
 
-    if request.args.get('system_add') == True:
-        flash('System Successfully Added')
+
+    system_id = request.args.get('system_id');
+
+    system = System.query.filter_by(id=system_id).first()
+    improvements = Improvement.query.filter_by(system_id=system.id)
+
+    return render_template('system_view.html', system=system, improvements=improvements)
+
+@system.route('/systems/create')
+def create():
+    if not current_user.is_authenticated:
+        return redirect(url_for('auth.login'))
 
     priorities = [1, 2, 3, 4, 5]
     system_health = ['Healthy', 'Needs Improvement', 'Unhealthy']
@@ -32,8 +51,8 @@ def create_system():
     priorities=priorities, system_health=system_health,
     languages=languages, tech_stacks=tech_stacks)
 
-@system.route('/system/create_system', methods=['POST'])
-def create_system_post():
+@system.route('/systems/create', methods=['POST'])
+def create_post():
     if not current_user.is_authenticated:
          return redirect(url_for('auth.login'))
    
@@ -49,10 +68,66 @@ def create_system_post():
 
     if system: 
         flash('System already exists')
-        return redirect('.create_system')
+        return redirect(url_for('.create'))
 
     new_system = System(name=name, system_health=health, priority=priority, language=language, tech_stack=tech_stack, description=description)
 
     db.session.add(new_system)
     db.session.commit()
-    return redirect(url_for('.system', system_add=True))
+    return redirect(url_for('.systems', system_add='successful'))
+
+@system.route('/systems/edit')
+def edit():
+    if not current_user.is_authenticated:
+        return redirect(url_for('auth.login'))
+
+    system_id = request.args.get('system_id');
+    system = System.query.filter_by(id=system_id).first() 
+
+    priorities = [1, 2, 3, 4, 5]
+    system_health = ['Healthy', 'Needs Improvement', 'Unhealthy']
+    languages = ['Perl', 'Java', 'Typescript']
+    tech_stacks = ['NAWS', 'MAWS']
+    return render_template('edit_system.html', 
+    priorities=priorities, system_health=system_health,
+    languages=languages, tech_stacks=tech_stacks, system=system)
+
+@system.route('/systems/edit', methods=['POST'])
+def edit_post():
+    if not current_user.is_authenticated:
+         return redirect(url_for('auth.login'))
+   
+
+    priority = request.form.get('priority')
+    health = request.form.get('system_health')
+    name = request.form.get('name')
+    language = request.form.get('language')
+    tech_stack = request.form.get('tech_stack')
+    description = request.form.get('description')
+
+    system_id = request.form.get('system_id');
+
+    System.query.filter_by(id=system_id).update(dict(name=name, system_health=health, priority=priority, language=language, tech_stack=tech_stack, description=description))
+
+    db.session.commit()
+    return redirect(url_for('.systems', system_edit='successful', system_id=system_id))
+
+@system.route('/systems/delete')
+def delete():
+    if not current_user.is_authenticated:
+         return redirect(url_for('auth.login'))
+    
+    name = current_user.__name
+
+
+
+    system_id = request.args.get('system_id');
+
+    system = System.query.filter_by(id=system_id).first() 
+
+
+    db.session.delete(system);
+    db.session.commit()
+    return redirect(url_for('.systems', system_delete='successful'))
+
+
