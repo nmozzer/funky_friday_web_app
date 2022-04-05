@@ -17,8 +17,12 @@ def systems():
     if request.args.get('system_edit'):
         flash('System Successfully Edited')
     
-    if request.args.get('system_delete'):
+    if request.args.get('system_delete') == 'successful':
         flash('System Successfully Deleted')
+    
+    if request.args.get('system_delete') == 'unsuccessful':
+        flash('System Unsuccessfully Deleted: User must be an admin to delete a system')
+    
 
 
     all_systems = db.session.query(System).order_by(asc(System.priority))
@@ -29,6 +33,18 @@ def systems():
 def view():
     if not current_user.is_authenticated:
         return redirect(url_for('auth.login'))
+
+    if request.args.get('improvement_add'):
+        flash('Improvement Successfully Added')
+    
+    if request.args.get('improvement_edit'):
+        flash('Improvement Successfully Edited')
+    
+    if request.args.get('improvement_delete') == 'successful':
+        flash('Improvement Successfully Deleted')
+    
+    if request.args.get('system_delete') == 'unsuccessful':
+        flash('Improvement Unsuccessfully Deleted: User must be an admin to delete a system')
 
 
     system_id = request.args.get('system_id');
@@ -64,7 +80,7 @@ def create_post():
     tech_stack = request.form.get('tech_stack')
     description = request.form.get('description')
 
-    system = System.query.filter_by(name=name).first() # if this returns a name, then the System already exists in database
+    system = System.query.filter_by(name=name).first() 
 
     if system: 
         flash('System already exists')
@@ -97,7 +113,6 @@ def edit_post():
     if not current_user.is_authenticated:
          return redirect(url_for('auth.login'))
    
-
     priority = request.form.get('priority')
     health = request.form.get('system_health')
     name = request.form.get('name')
@@ -116,18 +131,15 @@ def edit_post():
 def delete():
     if not current_user.is_authenticated:
          return redirect(url_for('auth.login'))
-    
-    name = current_user.__name
 
+    if current_user.type == 'admin':
+        system_id = request.args.get('system_id');
+        system = System.query.filter_by(id=system_id).first() 
 
+        db.session.delete(system);
+        db.session.commit()
+        return redirect(url_for('.systems', system_delete='successful'))
 
-    system_id = request.args.get('system_id');
-
-    system = System.query.filter_by(id=system_id).first() 
-
-
-    db.session.delete(system);
-    db.session.commit()
-    return redirect(url_for('.systems', system_delete='successful'))
+    return redirect(url_for('.systems', system_delete='unsuccessful'))
 
 

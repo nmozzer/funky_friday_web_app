@@ -8,9 +8,11 @@
 <div>{{system.description}}</div>
 
 {% for improvement in improvements %}
-<div>{{improvement.name}}</div>
-<div>{{improvement.description}}</div>
-<div>{{improvement.beans}}</div>
+<div>
+    <div>{{improvement.name}}</div>
+    <div>{{improvement.description}}</div>
+    <div>{{improvement.beans}}</div>
+</div>
 {% endfor %}
 
 <a href="{{url_for('system.systems')}}">Back to System</a>
