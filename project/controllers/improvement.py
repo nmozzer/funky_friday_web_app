@@ -43,7 +43,6 @@ def create_post():
     if not current_user.is_authenticated:
          return redirect(url_for('auth.login'))
    
-
     name = request.form.get('name')
     description = request.form.get('description')
     beans = request.form.get('beans')

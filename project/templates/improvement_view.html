@@ -5,6 +5,7 @@
     <div>{{improvement.description}}</div>
     <div>{{improvement.beans}}</div>
 </div>
+<a href="{{url_for('improvement.edit', improvement_id=improvement.id)}}">Edit this Improvement</a>
 <div>
     <div>{{system.name}}</div>
     <div>{{system.system_health}}</div>
@@ -12,7 +13,6 @@
 </div>
 
 {% if came_from == 'improvements' %}
-<div>Deleting a System is permanent, are you sure?</div>
 <a href="{{url_for('improvement.improvements')}}">Back to Improvements</a>
 {% else %}
 <a href="{{url_for('system.view', system_id=system.id)}}">Back to System</a>
