@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Add Improvement</h3>
+    <form method="POST" action="/improvements/create">
+        <label>Improvement Name</label>
+        <div class="field">
+            <div class="control">
+                <input class="input is-large" type="text" name="name" placeholder="Improvement Name" />
+            </div>
+        </div>
+        <label>Number of Beans</label>
+        <div class="field">
+            <div class="control">
+                <input class="input is-large" type="number" name="beans" placeholder="1" />
+            </div>
+        </div>
+        <label>Improvement Description</label>
+        <div class="field">
+            <div class="control">
+                <textarea class="input is-large" name="description" placeholder="Description of Improvement">
+                </textarea>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <input type="hidden" name="system_id" value="{{system.id}}" />
+            </div>
+        </div>
+
+        <button class="button is-block is-info is-large is-fullwidth">Submit</button>
+    </form>
+</div>
+{% endblock %}

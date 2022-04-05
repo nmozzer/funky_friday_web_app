@@ -7,9 +7,14 @@
 <div>{{system.tech_stack}}</div>
 <div>{{system.description}}</div>
 
+<a href="{{url_for('improvement.create', system_id=system.system_id)}}">Add an improvement</a>
+
 {% for improvement in improvements %}
 <div>
-    <div>{{improvement.name}}</div>
+    <a
+        href="{{url_for('improvement.view', improvement_id=improvement.id, system_id=improvement.system_id, came_from=system)}}"
+        >{{improvement.name}}</a
+    >
     <div>{{improvement.description}}</div>
     <div>{{improvement.beans}}</div>
 </div>

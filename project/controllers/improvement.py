@@ -6,7 +6,7 @@ from sqlalchemy import desc
 
 improvement = Blueprint('improvement', __name__)
 
-@improvement.route('/improvement')
+@improvement.route('/improvements')
 def improvements():
     if not current_user.is_authenticated:
         return redirect(url_for('auth.login'))
@@ -14,20 +14,21 @@ def improvements():
 
     return render_template('improvements.html', improvements=all_improvements)
 
-@improvement.route('/improvement/view')
+@improvement.route('/improvements/view')
 def view():
     if not current_user.is_authenticated:
         return redirect(url_for('auth.login'))
 
     improvement_id = request.args.get('improvement_id')
     system_id = request.args.get('system_id')
+    came_from = request.args.get('came_from')
 
     improvement = Improvement.query.filter_by(id=improvement_id).first()
     system = System.query.filter_by(id=system_id)
 
-    return render_template('improvement_view.html', improvement=improvement, system=system)
+    return render_template('improvement_view.html', improvement=improvement, system=system, came_from=came_from)
 
-@improvement.route('/improvement/create')
+@improvement.route('/improvements/create')
 def create():
     if not current_user.is_authenticated:
         return redirect(url_for('auth.login'))
@@ -37,7 +38,7 @@ def create():
 
     return render_template('create_improvement.html', system=system)
 
-@improvement.route('/improvement/create', methods=['POST'])
+@improvement.route('/improvements/create', methods=['POST'])
 def create_post():
     if not current_user.is_authenticated:
          return redirect(url_for('auth.login'))
@@ -62,7 +63,7 @@ def create_post():
     db.session.commit()
     return redirect(url_for('system.view', improvement_add='successful'), system_id=system_id)
 
-@improvement.route('/improvement/edit')
+@improvement.route('/improvements/edit')
 def edit():
     if not current_user.is_authenticated:
         return redirect(url_for('auth.login'))
@@ -73,7 +74,7 @@ def edit():
  
     return render_template('edit_improvement.html', improvement=improvement)
 
-@improvement.route('/improvement/edit', methods=['POST'])
+@improvement.route('/improvements/edit', methods=['POST'])
 def edit_post():
     if not current_user.is_authenticated:
          return redirect(url_for('auth.login'))
@@ -89,7 +90,7 @@ def edit_post():
     db.session.commit()
     return redirect(url_for('system.view', improvement_edit='successful'), system_id=system_id)
 
-@improvement.route('/improvement/delete')
+@improvement.route('/improvements/delete')
 def delete():
     if not current_user.is_authenticated:
          return redirect(url_for('auth.login'))

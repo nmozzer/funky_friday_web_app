@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% block content %}
+
+<div>
+    <div>{{improvement.name}}</div>
+    <div>{{improvement.description}}</div>
+    <div>{{improvement.beans}}</div>
+</div>
+<div>
+    <div>{{system.name}}</div>
+    <div>{{system.system_health}}</div>
+    <div>{{system.priority}}</div>
+</div>
+
+{% if came_from == 'improvements' %}
+<div>Deleting a System is permanent, are you sure?</div>
+<a href="{{url_for('improvement.improvements')}}">Back to Improvements</a>
+{% else %}
+<a href="{{url_for('system.view', system_id=system.id)}}">Back to System</a>
+{%endif%} {% endblock %}

@@ -1,6 +1,9 @@
 {% extends "base.html" %} {% block content %} {% for improvement in improvements %}
 <div>
-    <a href="{{url_for('improvement.view', improvement_id=improvement.id)}}">{{improvement.name}}</a>
+    <a
+        href="{{url_for('improvement.view', improvement_id=improvement.id, system_id=improvement.system_id, came_from=improvements)}}"
+        >{{improvement.name}}</a
+    >
     <div>{{improvement.description}}</div>
     <div>{{improvement.beans}}</div>
 </div>
