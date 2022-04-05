@@ -30,6 +30,9 @@ app.register_blueprint(auth_blueprint)
 from .controllers.system import system as system_blueprint
 app.register_blueprint(system_blueprint)
 
+from .controllers.improvement import improvement as improvement_blueprint
+app.register_blueprint(improvement_blueprint)
+
 from .controllers.main import main as main_blueprint
 app.register_blueprint(main_blueprint)
 

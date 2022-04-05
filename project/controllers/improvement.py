@@ -34,7 +34,7 @@ def create():
         return redirect(url_for('auth.login'))
     
     system_id = request.args.get('system_id')
-    system = System.query.filter_by(id=system_id)
+    system = System.query.filter_by(id=system_id).first()
 
     return render_template('create_improvement.html', system=system)
 
@@ -56,11 +56,11 @@ def create_post():
             return redirect(url_for('.create'))
 
      
-    new_improvement = Improvement(name=name, description=description, beans=beans)
+    new_improvement = Improvement(name=name, description=description, beans=beans, system_id=system_id, user_id=current_user.id)
 
     db.session.add(new_improvement)
     db.session.commit()
-    return redirect(url_for('system.view', improvement_add='successful'), system_id=system_id)
+    return redirect(url_for('system.view', improvement_add='successful', system_id=system_id))
 
 @improvement.route('/improvements/edit')
 def edit():
@@ -82,12 +82,12 @@ def edit_post():
     description = request.form.get('description')
     beans = request.form.get('beans')
     system_id = request.form.get('system_id')
-    improvement_id = request.form.get('improvement_id');
+    improvement_id = request.args.get('improvement_id');
 
-    Improvement.query.filter_by(id=improvement_id).update(dict(name=name, description=description, beans=beans))
+    Improvement.query.filter_by(id=improvement_id).update(dict(name=name, description=description, beans=beans, user_id=current_user.id))
 
     db.session.commit()
-    return redirect(url_for('system.view', improvement_edit='successful'), system_id=system_id)
+    return redirect(url_for('system.view', improvement_edit='successful', system_id=system_id))
 
 @improvement.route('/improvements/delete')
 def delete():

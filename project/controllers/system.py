@@ -24,7 +24,6 @@ def systems():
         flash('System Unsuccessfully Deleted: User must be an admin to delete a system')
     
 
-
     all_systems = db.session.query(System).order_by(asc(System.priority))
 
     return render_template('systems.html', systems=all_systems)
@@ -50,7 +49,7 @@ def view():
     system_id = request.args.get('system_id');
 
     system = System.query.filter_by(id=system_id).first()
-    improvements = Improvement.query.filter_by(system_id=system.id)
+    improvements = Improvement.query.filter_by(system_id=system.id).all()
 
     return render_template('system_view.html', system=system, improvements=improvements)
 

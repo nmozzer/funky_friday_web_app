@@ -1,5 +1,6 @@
-{% extends "base.html" %} {% block content %}
-
+{% extends "base.html" %} {% block content %} {% with messages = get_flashed_messages() %} {% if messages %}
+<div class="notification is-danger">{{ messages[0] }}</div>
+{% endif %} {% endwith %}
 <div>{{system.name}}</div>
 <div>{{system.system_health}}</div>
 <div>{{system.priority}}</div>
@@ -7,7 +8,7 @@
 <div>{{system.tech_stack}}</div>
 <div>{{system.description}}</div>
 
-<a href="{{url_for('improvement.create', system_id=system.system_id)}}">Add an improvement</a>
+<a href="{{url_for('improvement.create', system_id=system.id)}}">Add an improvement</a>
 
 {% for improvement in improvements %}
 <div>
