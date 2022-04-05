@@ -1,4 +1,4 @@
 {% extends "base.html" %} {% block content %}
-<h1 class="title">Flask Login Example</h1>
-<h2 class="subtitle">Easy authentication and authorization in Flask.</h2>
+
+<div class="notification is-danger">{{ messages[0] }}. View <a href="{{ url_for('system.system') }}">Systems</a>.</div>
 {% endblock %}

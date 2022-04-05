@@ -1,0 +1,65 @@
+{% extends "base.html" %} {% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Add System</h3>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="notification is-danger">{{ messages[0] }}</div>
+    {% endif %} {% endwith %}
+    <form method="POST" action="/create_system">
+        <label>System Name</label>
+        <div class="field">
+            <div class="control">
+                <input class="input is-large" type="text" name="name" placeholder="System Name" />
+            </div>
+        </div>
+        <label>Priority (1 is high)</label>
+        <div class="field">
+            <div class="control">
+                <select name="priority">
+                    {% for priority in priorities%}
+                    <option value="{{ priority }}" selected>{{ priority }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <label>System Health</label>
+        <div class="field">
+            <div class="control">
+                <select name="system_health">
+                    {% for health in system_health%}
+                    <option value="{{ health }}" selected>{{ health }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <label>System Language</label>
+        <div class="field">
+            <div class="control">
+                <select name="language">
+                    {% for language in languages%}
+                    <option value="{{ language }}" selected>{{ language }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <label>Tech Stack</label>
+        <div class="field">
+            <div class="control">
+                <select name="tech_stack">
+                    {% for tech_stack in tech_stacks%}
+                    <option value="{{ tech_stack }}" selected>{{ tech_stack }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <label>System Description</label>
+        <div class="field">
+            <div class="control">
+                <textarea class="input is-small" type="password" name="description" placeholder="Description of System">
+                </textarea>
+            </div>
+        </div>
+
+        <button class="button is-block is-info is-large is-fullwidth">Submit</button>
+    </form>
+</div>
+{% endblock %}
