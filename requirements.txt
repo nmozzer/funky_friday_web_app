@@ -9,7 +9,6 @@ Flask==2.1.1
 Flask-Login==0.6.0
 Flask-Migrate==3.1.0
 Flask-SQLAlchemy==2.5.1
-GoshawkBotocore @ git+ssh://git.amazon.com/pkg/GoshawkBotocore@cc461c062d18f58211be3e1833a5ae83e9db0759
 greenlet==1.1.2
 gunicorn==20.1.0
 importlib-metadata==4.11.3
