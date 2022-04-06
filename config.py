@@ -7,25 +7,26 @@ load_dotenv(path.join(basedir, '.env'))
 
 class Config:
     STATIC_FOLDER = 'static'
+    SECRET_KEY = environ.get('SECRET_KEY')
     TEMPLATES_FOLDER = 'templates'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class ProdConfig(Config):
-    FLASK_ENV = 'production'
+    FLASK_ENV = 'prod'
     DEBUG = False
     TESTING = False
-    DATABASE_URI = environ.get('DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URI')
 
 
 class DevConfig(Config):
-    FLASK_ENV = 'development'
+    FLASK_ENV = 'dev'
     DEBUG = True
     TESTING = True
-    DATABASE_URI = environ.get('DEV_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URI')
 
 class TestConfig(Config):
-    FLASK_ENV = 'testing'
+    FLASK_ENV = 'test'
     DEBUG = True
     TESTING = True
     DATABASE_URI = environ.get('DEV_DATABASE_URI')

@@ -2,41 +2,51 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager 
-    
-app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'secret-key-goes-here'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://nicksjm:postgres@localhost:5432/funky_friday'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy()
+migrate = Migrate(db)
 
-# init SQLAlchemy so we can use it later in our models
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-db.init_app(app)
+import os
 
-login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
-login_manager.init_app(app)
+def create_app(test=False):
+    app = Flask(__name__)
 
-from .models import User
+    flask_env = os.getenv('FLASK_ENV', None)
+    if test:
+        app.config.from_object('config.TestConfig')
+    elif flask_env == 'dev':
+        app.config.from_object('config.DevConfig')
+    elif flask_env == 'test':
+        app.config.from_object('config.TestConfig')
+    else:
+        app.config.from_object('config.ProdConfig')
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+    init_plugins(app)
+    init_blueprints(app)
 
-from .auth.routes import auth as auth_blueprint
-app.register_blueprint(auth_blueprint)
+    return app
 
-from .systems.routes import system as system_blueprint
-app.register_blueprint(system_blueprint)
+def init_plugins(app):
+    db.init_app(app)
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
 
-from .improvements.routes import improvement as improvement_blueprint
-app.register_blueprint(improvement_blueprint)
+    from .models import User
 
-from .home.routes import main as main_blueprint
-app.register_blueprint(main_blueprint)
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
+def init_blueprints(app):
+    from .auth.routes import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
 
-db.create_all()
+    from .systems.routes import system as system_blueprint
+    app.register_blueprint(system_blueprint)
 
+    from .improvements.routes import improvement as improvement_blueprint
+    app.register_blueprint(improvement_blueprint)
 
+    from .home.routes import main as main_blueprint
+    app.register_blueprint(main_blueprint)

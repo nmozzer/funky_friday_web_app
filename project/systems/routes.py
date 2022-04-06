@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import current_app as app
 from flask_login import current_user
 from .. import db
 from ..models import System, Improvement
