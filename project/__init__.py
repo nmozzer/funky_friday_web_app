@@ -9,7 +9,7 @@ migrate = Migrate(db)
 import os
 
 def create_app(test=False):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='static')
 
     flask_env = os.getenv('FLASK_ENV', None)
     if test:

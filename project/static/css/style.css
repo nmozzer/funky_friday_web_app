@@ -1,0 +1,14 @@
+a {
+    color: black;
+    text-decoration: none; /* no underline */
+}
+
+.jumbotron {
+    background-size: cover;
+    padding-top: 20%;
+    padding-bottom: 20%;
+}
+
+.home-links {
+    display: flex;
+}

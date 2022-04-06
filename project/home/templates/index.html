@@ -1,4 +1,17 @@
 {% extends "base.html" %} {% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Funky Friday</h1>
+        <p class="lead">A place to view and add Funky Friday improvements.</p>
+        <div class="home-links">
+            <div>
+                <a class="btn btn-primary" href="{{url_for('system.systems')}}">View Systems</a>
+            </div>
+            <div>
+                <a class="btn btn-primary" href="{{url_for('improvement.improvements')}}">View Improvements</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div class="notification is-danger"><a href="{{ url_for('system.systems') }}">View Systems</a></div>
 {% endblock %}
