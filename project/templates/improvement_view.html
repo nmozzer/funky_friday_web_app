@@ -5,7 +5,9 @@
     <div>{{improvement.description}}</div>
     <div>{{improvement.beans}}</div>
 </div>
-<a href="{{url_for('improvement.edit', improvement_id=improvement.id)}}">Edit this Improvement</a>
+<a href="{{url_for('improvement.edit', improvement_id=improvement.id, system_id=improvement.system_id)}}"
+    >Edit this Improvement</a
+>
 <button class="delete-improvement-trigger" data-target="delete-improvement-modal">Delete improvement</button>
 <div id="delete-improvement-modal" class="modal">
     <div class="modal-background"></div>
@@ -14,7 +16,9 @@
         <div class="box">
             {% if current_user.type == 'admin' %}
             <div>Deleting an Improvement is permanent, are you sure?</div>
-            <a href="{{url_for('improvement.delete', improvement_id=improvement.id)}}">Yes</a>
+            <a href="{{url_for('improvement.delete', improvement_id=improvement.id, system_id=improvement.system_id)}}"
+                >Yes</a
+            >
             {% else %}
             <div>You must be an admin to delete a Improvement</div>
             {%endif%}

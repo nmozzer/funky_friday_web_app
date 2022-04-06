@@ -69,9 +69,10 @@ def edit():
 
     improvement_id = request.args.get('improvement_id');
     improvement = Improvement.query.filter_by(id=improvement_id).first() 
+    system_id = request.args.get('system_id')
 
  
-    return render_template('edit_improvement.html', improvement=improvement)
+    return render_template('edit_improvement.html', improvement=improvement, system_id=system_id)
 
 @improvement.route('/improvements/edit', methods=['POST'])
 def edit_post():
@@ -81,8 +82,8 @@ def edit_post():
     name = request.form.get('name')
     description = request.form.get('description')
     beans = request.form.get('beans')
+    improvement_id = request.form.get('improvement_id');
     system_id = request.form.get('system_id')
-    improvement_id = request.args.get('improvement_id');
 
     Improvement.query.filter_by(id=improvement_id).update(dict(name=name, description=description, beans=beans, user_id=current_user.id))
 
@@ -102,8 +103,8 @@ def delete():
 
         db.session.delete(improvement);
         db.session.commit()
-        return redirect(url_for('system.view', improvement_delete='successful'), system_id=system_id)
+        return redirect(url_for('system.view', improvement_delete='successful', system_id=system_id))
     
-    return redirect(url_for('system.view', improvement_delete='unsuccessful'), system_id=system_id)
+    return redirect(url_for('system.view', improvement_delete='unsuccessful', system_id=system_id))
 
 

@@ -49,7 +49,7 @@ def view():
     system_id = request.args.get('system_id');
 
     system = System.query.filter_by(id=system_id).first()
-    improvements = Improvement.query.filter_by(system_id=system.id).all()
+    improvements = Improvement.query.filter_by(system_id=system_id).all()
 
     return render_template('system_view.html', system=system, improvements=improvements)
 
