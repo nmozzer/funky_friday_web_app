@@ -3,7 +3,6 @@ boto3==1.16.12
 botocore==1.19.12
 colorama==0.4.3
 docutils==0.15.2
-GoshawkBotocore @ git+ssh://git.amazon.com/pkg/GoshawkBotocore@cc461c062d18f58211be3e1833a5ae83e9db0759
 gunicorn==20.1.0
 jmespath==0.10.0
 protobuf==3.13.0
