@@ -35,7 +35,7 @@
 {% if came_from == 'improvements' %}
 <a href="{{url_for('improvement.improvements')}}">Back to Improvements</a>
 {% else %}
-<a href="{{url_for('system.view', system_id=system.id)}}">Back to System</a>
+<a href="{{url_for('system.view', system_id=improvement.system_id)}}">Back to System</a>
 {%endif%}
 <script>
     document.addEventListener('DOMContentLoaded', () => {

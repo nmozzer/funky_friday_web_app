@@ -17,9 +17,6 @@ def improvements():
 @improvement.route('/improvements/view')
 @login_required
 def view():
-    if not current_user.is_authenticated:
-        return redirect(url_for('auth.login'))
-
     improvement_id = request.args.get('improvement_id')
     system_id = request.args.get('system_id')
     came_from = request.args.get('came_from')
@@ -31,21 +28,16 @@ def view():
 
 @improvement.route('/improvements/create')
 @login_required
-def create():
-    if not current_user.is_authenticated:
-        return redirect(url_for('auth.login'))
-    
+def create():   
     system_id = request.args.get('system_id')
+    print(system_id)
     system = System.query.filter_by(id=system_id).first()
 
     return render_template('create_improvement.html', system=system)
 
 @improvement.route('/improvements/create', methods=['POST'])
 @login_required
-def create_post():
-    if not current_user.is_authenticated:
-         return redirect(url_for('auth.login'))
-   
+def create_post():  
     name = request.form.get('name')
     description = request.form.get('description')
     beans = request.form.get('beans')
@@ -54,23 +46,20 @@ def create_post():
     improvements = Improvement.query.filter_by(system_id=system_id)
 
     for improvement in improvements:
-        if improvement: 
+        if improvement.name == name: 
             flash('Improvement already exists')
             return redirect(url_for('.create'))
 
-     
+    print(system_id)
     new_improvement = Improvement(name=name, description=description, beans=beans, system_id=system_id, user_id=current_user.id)
 
     db.session.add(new_improvement)
     db.session.commit()
-    return redirect(url_for('system.view', improvement_add='successful', system_id=system_id))
+    return redirect(url_for('system.view', system_id=system_id, improvement_add='successful'))
 
 @improvement.route('/improvements/edit')
 @login_required
 def edit():
-    if not current_user.is_authenticated:
-        return redirect(url_for('auth.login'))
-
     improvement_id = request.args.get('improvement_id');
     improvement = Improvement.query.filter_by(id=improvement_id).first() 
     system_id = request.args.get('system_id')
@@ -81,9 +70,6 @@ def edit():
 @improvement.route('/improvements/edit', methods=['POST'])
 @login_required
 def edit_post():
-    if not current_user.is_authenticated:
-         return redirect(url_for('auth.login'))
-
     name = request.form.get('name')
     description = request.form.get('description')
     beans = request.form.get('beans')
@@ -97,10 +83,7 @@ def edit_post():
 
 @improvement.route('/improvements/delete')
 @login_required
-def delete():
-    if not current_user.is_authenticated:
-         return redirect(url_for('auth.login'))
-    
+def delete(): 
     improvement_id = request.args.get('improvement_id');
     system_id = request.args.get('system_id')
 

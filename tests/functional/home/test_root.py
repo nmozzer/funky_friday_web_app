@@ -3,5 +3,5 @@ from . import client
 def test_landing(client): 
     response = client.get('/', follow_redirects=True)
 
-    # Check we are redirected to the login page
+    assert response.status_code == 200
     assert b'View Systems' in response.data

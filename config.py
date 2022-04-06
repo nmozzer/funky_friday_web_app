@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, '.env'))
 
-
 class Config:
     STATIC_FOLDER = 'static'
     SECRET_KEY = environ.get('SECRET_KEY')
@@ -26,8 +25,9 @@ class DevConfig(Config):
     SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URI')
 
 class TestConfig(Config):
+    LOGIN_DISABLED = True
     FLASK_ENV = 'test'
     DEBUG = True
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/test.db'
-    LOGIN_DISABLED = True
+    

@@ -10,9 +10,6 @@ system = Blueprint('system', __name__, template_folder='templates', static_folde
 @system.route('/systems')
 @login_required
 def systems():
-    if not current_user.is_authenticated:
-        return redirect(url_for('auth.login'))
-
     if request.args.get('system_add'):
         flash('System Successfully Added')
     
@@ -31,10 +28,8 @@ def systems():
     return render_template('systems.html', systems=all_systems)
 
 @system.route('/systems/view')
+@login_required
 def view():
-    if not current_user.is_authenticated:
-        return redirect(url_for('auth.login'))
-
     if request.args.get('improvement_add'):
         flash('Improvement Successfully Added')
     
@@ -58,9 +53,6 @@ def view():
 @system.route('/systems/create')
 @login_required
 def create():
-    if not current_user.is_authenticated:
-        return redirect(url_for('auth.login'))
-
     priorities = [1, 2, 3, 4, 5]
     system_health = ['Healthy', 'Needs Improvement', 'Unhealthy']
     languages = ['Perl', 'Java', 'Typescript']
@@ -72,10 +64,6 @@ def create():
 @system.route('/systems/create', methods=['POST'])
 @login_required
 def create_post():
-    if not current_user.is_authenticated:
-         return redirect(url_for('auth.login'))
-   
-
     priority = request.form.get('priority')
     health = request.form.get('system_health')
     name = request.form.get('name')
@@ -98,9 +86,6 @@ def create_post():
 @system.route('/systems/edit')
 @login_required
 def edit():
-    if not current_user.is_authenticated:
-        return redirect(url_for('auth.login'))
-
     system_id = request.args.get('system_id');
     system = System.query.filter_by(id=system_id).first() 
 
@@ -115,9 +100,6 @@ def edit():
 @system.route('/systems/edit', methods=['POST'])
 @login_required
 def edit_post():
-    if not current_user.is_authenticated:
-         return redirect(url_for('auth.login'))
-   
     priority = request.form.get('priority')
     health = request.form.get('system_health')
     name = request.form.get('name')
@@ -135,9 +117,6 @@ def edit_post():
 @system.route('/systems/delete')
 @login_required
 def delete():
-    if not current_user.is_authenticated:
-         return redirect(url_for('auth.login'))
-
     if current_user.type == 'admin':
         system_id = request.args.get('system_id');
         system = System.query.filter_by(id=system_id).first() 
