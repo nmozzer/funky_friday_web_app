@@ -12,20 +12,20 @@ def client():
             yield client
 
 
-@pytest.fixture(scope='function')
-def init_test_database(client):
-    db.create_all()
+# @pytest.fixture(scope='function')
+# def init_test_database(client):
+#     db.create_all()
 
-    email = 'test@test.com'
-    password ='testPassword'
-    name = 'TestyMcTestFace'
-    type = 'user'
+#     email = 'test@test.com'
+#     password ='testPassword'
+#     name = 'TestyMcTestFace'
+#     type = 'user'
 
-    user = User(name=name, password=password, email=email, type=type)
-    db.session.add(user)
+#     user = User(name=name, password=password, email=email, type=type)
+#     db.session.add(user)
 
-    db.session.commit()
+#     db.session.commit()
 
-    yield
+#     yield
 
-    db.drop_all()
+#     db.drop_all()

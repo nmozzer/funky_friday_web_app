@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask import current_app as app
-from flask_login import current_user
+from flask_login import current_user, login_required
 from .. import db
 from ..models import System, Improvement
 from sqlalchemy import asc
@@ -8,6 +8,7 @@ from sqlalchemy import asc
 system = Blueprint('system', __name__, template_folder='templates', static_folder='static')
 
 @system.route('/systems')
+@login_required
 def systems():
     if not current_user.is_authenticated:
         return redirect(url_for('auth.login'))
@@ -55,6 +56,7 @@ def view():
     return render_template('system_view.html', system=system, improvements=improvements)
 
 @system.route('/systems/create')
+@login_required
 def create():
     if not current_user.is_authenticated:
         return redirect(url_for('auth.login'))
@@ -68,6 +70,7 @@ def create():
     languages=languages, tech_stacks=tech_stacks)
 
 @system.route('/systems/create', methods=['POST'])
+@login_required
 def create_post():
     if not current_user.is_authenticated:
          return redirect(url_for('auth.login'))
@@ -93,6 +96,7 @@ def create_post():
     return redirect(url_for('.systems', system_add='successful'))
 
 @system.route('/systems/edit')
+@login_required
 def edit():
     if not current_user.is_authenticated:
         return redirect(url_for('auth.login'))
@@ -109,6 +113,7 @@ def edit():
     languages=languages, tech_stacks=tech_stacks, system=system)
 
 @system.route('/systems/edit', methods=['POST'])
+@login_required
 def edit_post():
     if not current_user.is_authenticated:
          return redirect(url_for('auth.login'))
@@ -128,6 +133,7 @@ def edit_post():
     return redirect(url_for('.systems', system_edit='successful', system_id=system_id))
 
 @system.route('/systems/delete')
+@login_required
 def delete():
     if not current_user.is_authenticated:
          return redirect(url_for('auth.login'))

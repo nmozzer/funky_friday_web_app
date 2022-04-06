@@ -5,10 +5,8 @@ from flask_login import login_required, current_user
 main = Blueprint('main', __name__, template_folder='templates', static_folder='static')
 
 @main.route('/')
+@login_required
 def index():
-    if not current_user.is_authenticated:
-        return redirect(url_for('auth.login'))
-
     return render_template('index.html')
 
 @main.route('/profile')

@@ -30,3 +30,4 @@ class TestConfig(Config):
     DEBUG = True
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/test.db'
+    LOGIN_DISABLED = True
