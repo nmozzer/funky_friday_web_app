@@ -1,3 +1,4 @@
+alembic==1.7.7
 awscli==1.18.172
 boto3==1.16.12
 botocore==1.19.12
@@ -6,13 +7,16 @@ colorama==0.4.3
 docutils==0.15.2
 Flask==2.1.1
 Flask-Login==0.6.0
+Flask-Migrate==3.1.0
 Flask-SQLAlchemy==2.5.1
+GoshawkBotocore @ git+ssh://git.amazon.com/pkg/GoshawkBotocore@cc461c062d18f58211be3e1833a5ae83e9db0759
 greenlet==1.1.2
 gunicorn==20.1.0
 importlib-metadata==4.11.3
 itsdangerous==2.1.2
 Jinja2==3.1.1
 jmespath==0.10.0
+Mako==1.2.0
 MarkupSafe==2.1.1
 protobuf==3.13.0
 pyasn1==0.4.8
