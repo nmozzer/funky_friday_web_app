@@ -24,16 +24,16 @@ from .models import User
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-from .controllers.auth import auth as auth_blueprint
+from .auth.routes import auth as auth_blueprint
 app.register_blueprint(auth_blueprint)
 
-from .controllers.system import system as system_blueprint
+from .systems.routes import system as system_blueprint
 app.register_blueprint(system_blueprint)
 
-from .controllers.improvement import improvement as improvement_blueprint
+from .improvements.routes import improvement as improvement_blueprint
 app.register_blueprint(improvement_blueprint)
 
-from .controllers.main import main as main_blueprint
+from .home.routes import main as main_blueprint
 app.register_blueprint(main_blueprint)
 
 

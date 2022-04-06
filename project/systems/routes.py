@@ -4,7 +4,7 @@ from .. import db
 from ..models import System, Improvement
 from sqlalchemy import asc
 
-system = Blueprint('system', __name__)
+system = Blueprint('system', __name__, template_folder='templates', static_folder='static')
 
 @system.route('/systems')
 def systems():

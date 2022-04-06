@@ -4,7 +4,7 @@ from .. import db
 from ..models import System, Improvement
 from sqlalchemy import desc
 
-improvement = Blueprint('improvement', __name__)
+improvement = Blueprint('improvement', __name__, template_folder='templates', static_folder='static')
 
 @improvement.route('/improvements')
 def improvements():
