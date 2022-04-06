@@ -29,4 +29,4 @@ class TestConfig(Config):
     FLASK_ENV = 'test'
     DEBUG = True
     TESTING = True
-    DATABASE_URI = environ.get('DEV_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/test.db'

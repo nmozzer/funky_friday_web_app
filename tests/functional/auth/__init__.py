@@ -22,8 +22,8 @@ def init_test_database(client):
     type = 'user'
 
     user = User(name=name, password=password, email=email, type=type)
-    db.session.add(user)
 
+    db.session.add(user)
     db.session.commit()
 
     yield
