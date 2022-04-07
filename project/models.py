@@ -2,7 +2,9 @@ from flask_login import UserMixin
 from . import db
 from sqlalchemy.sql import func
 
-class User(UserMixin, db.Model):    
+class User(UserMixin, db.Model):
+    __tablename__ = 'users'
+    
     id = db.Column(db.Integer, primary_key=True) 
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
@@ -16,6 +18,8 @@ class User(UserMixin, db.Model):
         return f'<User {self.email}>'
 
 class System(db.Model):
+    __tablename__ = 'systems'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
     system_health = db.Column(db.String(100))
@@ -32,10 +36,12 @@ class System(db.Model):
 
 
 class Improvement(db.Model):
+    __table_name__ = 'improvements'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
-    system_id = db.Column(db.Integer, db.ForeignKey('system.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    system_id = db.Column(db.Integer, db.ForeignKey('systems.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     beans = db.Column(db.Integer)
     description = db.Column(db.Text)
     created_at = db.Column(db.DateTime(timezone=True),

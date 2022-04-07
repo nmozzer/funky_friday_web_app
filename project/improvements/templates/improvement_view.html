@@ -1,87 +1,65 @@
 {% extends "base.html" %} {% block content %}
-
-<div>
-    <div>{{improvement.name}}</div>
-    <div>{{improvement.description}}</div>
-    <div>{{improvement.beans}}</div>
-</div>
-<a href="{{url_for('improvement.edit', improvement_id=improvement.id, system_id=improvement.system_id)}}"
-    >Edit this Improvement</a
->
-<button class="delete-improvement-trigger" data-target="delete-improvement-modal">Delete improvement</button>
-<div id="delete-improvement-modal" class="modal">
-    <div class="modal-background"></div>
-
-    <div class="modal-content">
-        <div class="box">
-            {% if current_user.type == 'admin' %}
-            <div>Deleting an Improvement is permanent, are you sure?</div>
-            <a href="{{url_for('improvement.delete', improvement_id=improvement.id, system_id=improvement.system_id)}}"
-                >Yes</a
+<div class="container d-flex justify-content-center align-items-center p-5">
+    <div class="card text-center" style="width: 50%">
+        <div class="card-body">
+            <h5 class="card-title">{{improvement.name}}</h5>
+            <div class="card-text p-2">
+                <span class="text-success">Description: </span><br />{{improvement.description}}
+            </div>
+            <div class="card-text p-2"><span class="text-success">Beans: </span><br />{{improvement.beans}}</div>
+            <a
+                class="btn btn-success"
+                href="{{url_for('improvement.edit', improvement_id=improvement.id, system_id=improvement.system_id)}}"
+                >Edit this Improvement</a
             >
-            {% else %}
-            <div>You must be an admin to delete a Improvement</div>
-            {%endif%}
-            <button class="modal-close is-large" aria-label="close">No</button>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Delete Improvement
+            </button>
+        </div>
+        {% if came_from == 'improvements' %}
+        <a class="btn btn-primary" href="{{url_for('improvement.improvements')}}">Back to Improvements</a>
+        {% else %}
+        <a class="btn btn-primary" href="{{url_for('system.view', system_id=improvement.system_id)}}">Back to System</a>
+        {%endif%} {% endblock %}
+    </div>
+</div>
+
+<div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Delete System</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>Deleting a System is permanent, are you sure?</div>
+            </div>
+            <div class="modal-footer">
+                {% if current_user.type == 'admin' %}
+                <a
+                    class="btn btn-primary"
+                    href="{{url_for('improvement.delete', improvement_id=improvement.id, system_id=improvement.system_id)}}"
+                    >Yes</a
+                >
+                {% else %}
+                <div>You must be an admin to delete a System</div>
+                {%endif%}
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
+
 <div>
     <div>{{system.name}}</div>
     <div>{{system.system_health}}</div>
     <div>{{system.priority}}</div>
 </div>
-
-{% if came_from == 'improvements' %}
-<a href="{{url_for('improvement.improvements')}}">Back to Improvements</a>
-{% else %}
-<a href="{{url_for('system.view', system_id=improvement.system_id)}}">Back to System</a>
-{%endif%}
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        function openModal($el) {
-            $el.classList.add('is-active');
-        }
-
-        function closeModal($el) {
-            $el.classList.remove('is-active');
-        }
-
-        function closeAllModals() {
-            (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-                closeModal($modal);
-            });
-        }
-
-        (document.querySelectorAll('.delete-improvement-trigger') || []).forEach(($trigger) => {
-            const modal = $trigger.dataset.target;
-            const $target = document.getElementById(modal);
-            console.log($target);
-
-            $trigger.addEventListener('click', () => {
-                openModal($target);
-            });
-        });
-
-        (
-            document.querySelectorAll(
-                '.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button',
-            ) || []
-        ).forEach(($close) => {
-            const $target = $close.closest('.modal');
-
-            $close.addEventListener('click', () => {
-                closeModal($target);
-            });
-        });
-
-        document.addEventListener('keydown', (event) => {
-            const e = event || window.event;
-
-            if (e.keyCode === 27) {
-                closeAllModals();
-            }
-        });
-    });
-</script>
-{% endblock %}

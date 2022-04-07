@@ -1,20 +1,21 @@
 {% extends "base.html" %} {% block content %} {% with messages = get_flashed_messages() %} {% if messages %}
 <div class="alert alert-warning">{{ messages[0] }}</div>
 {% endif %} {% endwith %}
-<div class="alert alert-primary"><a href="{{ url_for('system.create') }}">Add a new System</a></div>
+<div class="alert alert-danger"><a href="{{ url_for('system.create') }}">Add a new System</a></div>
 <div class="systems">
     {% for system in systems %}
     <div class="card">
-        <h5 class="card-header"><a href="{{url_for('system.view', system_id=system.id)}}">{{system.name}}</a></h5>
+        <h3 class="card-header text-warning">{{system.name}}</h3>
         <div class="card-body">
             <h5 class="card-title">{{system.system_health}}</h5>
             <p class="card-text">Priority: {{system.priority}}</p>
             <p class="card-text">{{system.tech_stack}}</p>
             <p class="card-text">{{system.language}}</p>
             <p class="card-text">Description: {{system.description}}</p>
-            <a class="btn btn-primary" href="{{url_for('system.edit', system_id=system.id)}}">Edit System</a>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                Delete System
+            <a class="btn btn-success" href="{{url_for('system.edit', system_id=system.id)}}">Edit</a>
+            <a class="btn btn-success" href="{{url_for('system.view', system_id=system.id)}}">View</a>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Delete
             </button>
         </div>
     </div>
@@ -39,7 +40,7 @@
                     </div>
                     <div class="modal-footer">
                         {% if current_user.type == 'admin' %}
-                        <a class="btn btn-primary" href="{{url_for('system.delete', system_id=system.id)}}">Yes</a>
+                        <a class="btn btn-success" href="{{url_for('system.delete', system_id=system.id)}}">Yes</a>
                         {% else %}
                         <div>You must be an admin to delete a System</div>
                         {%endif%}

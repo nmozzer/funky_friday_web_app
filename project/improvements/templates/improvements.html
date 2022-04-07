@@ -1,10 +1,23 @@
-{% extends "base.html" %} {% block content %} {% for improvement in improvements %}
-<div>
-    <a
-        href="{{url_for('improvement.view', improvement_id=improvement.id, system_id=improvement.system_id, came_from=improvements)}}"
-        >{{improvement.name}}</a
-    >
-    <div>{{improvement.description}}</div>
-    <div>{{improvement.beans}}</div>
-</div>
-{% endfor %} {% endblock %}
+{% extends "base.html" %} {% block content %} 
+<div class="d-flex flex-row container container-fluid">
+    <div class="container-fluid card p-1">
+        <ul class="list-group list-group-flush">
+            {% for improvement in improvements %}
+            <li class="list-group-item">
+                <div class="card">
+                    <div class="card-body">
+            
+                      <h5 class="card-title p-2">{{improvement.name}}</h5>
+                      <div class="card-text p-2"><span class="text-success">Description: </span>{{improvement.description}}</div>
+                      <div class="card-text p-2"><span class="text-success">Beans: </span>{{improvement.beans}}</div>
+                      <a class="btn btn-danger p-2"
+                        href="{{url_for('improvement.view', improvement_id=improvement.id, system_id=improvement.system_id, came_from='system')}}"
+                        >View/Edit</a
+                    >
+                    </div>  
+            </li>
+
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

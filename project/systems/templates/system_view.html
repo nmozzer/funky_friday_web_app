@@ -1,26 +1,50 @@
 {% extends "base.html" %} {% block content %} {% with messages = get_flashed_messages() %} {% if messages %}
-<div class="notification is-danger">{{ messages[0] }}</div>
+<div class="alert alert-danger">{{ messages[0] }}</div>
 {% endif %} {% endwith %}
-<div>{{system.name}}</div>
-<div>{{system.system_health}}</div>
-<div>{{system.priority}}</div>
-<div>{{system.language}}</div>
-<div>{{system.tech_stack}}</div>
-<div>{{system.description}}</div>
+<div class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
+        <div class="card m-3 text-center" style="width: 50%">
+            <div class="card-header">System</div>
+            <div class="card-body">
+                <h3 class="card-title text-warning">{{system.name}}</h3>
+                <div class="card-text p-3"><span class="text-success">Priority: </span><br />{{system.priority}}</div>
+                <div class="card-text p-3"><span class="text-success">Language: </span><br />{{system.language}}</div>
+                <div class="card-text p-3">
+                    <span class="text-success">Tech Stack: </span><br />
+                    {{system.tech_stack}}
+                </div>
+                <div class="card-text p-3">
+                    <span class="text-success">Description: </span><br />
+                    {{system.description}}
+                </div>
+                <a class="btn btn-success m-2" href="{{url_for('improvement.create', system_id=system.id)}}"
+                    >Add an improvement</a
+                >
+            </div>
+            <div class="card-footer text-muted"><a href="{{url_for('system.systems')}}">Back to Systems</a></div>
+        </div>
+        <div class="d-flex flex-row container container-fluid">
+            <div class="container-fluid card p-1">
+                <ul class="list-group list-group-flush">
+                    {% for improvement in improvements %}
+                    <li class="list-group-item">
+                        <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title p-2">{{improvement.name}}</h5>
+                              <div class="card-text p-2"><span class="text-success">Description: </span>{{improvement.description}}</div>
+                              <div class="card-text p-2"><span class="text-success">Beans: </span>{{improvement.beans}}</div>
+                              <a class="btn btn-danger p-2"
+                                href="{{url_for('improvement.view', improvement_id=improvement.id, system_id=improvement.system_id, came_from='system')}}"
+                                >View/Edit</a
+                            >
+                            </div>  
+                    </li>
 
-<a href="{{url_for('improvement.create', system_id=system.id)}}">Add an improvement</a>
-
-{% for improvement in improvements %}
-<div>
-    <a
-        href="{{url_for('improvement.view', improvement_id=improvement.id, system_id=improvement.system_id, came_from='system')}}"
-        >{{improvement.name}}</a
-    >
-    <div>{{improvement.description}}</div>
-    <div>{{improvement.beans}}</div>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-{% endfor %}
-
-<a href="{{url_for('system.systems')}}">Back to System</a>
 
 {% endblock %}
