@@ -6,7 +6,7 @@ def test_systems(client, init_system_database):
     assert response.status_code == 200
     assert b'Add a new System' in response.data
     assert b'TestyMcTestSystem' in response.data
-    assert b'Edit System' in response.data
+    assert b'Edit' in response.data
 
 def test_view(client, init_system_database):
     response = client.get('/systems/view?system_id=1', follow_redirects=True)
@@ -45,7 +45,7 @@ def test_edit(client, init_system_database):
 
     assert response.status_code == 200
     
-    assert b'Edit System' in response.data
+    assert b'Edit' in response.data
     assert b'System Health' in response.data
     assert b'System Language' in response.data
     assert b'Tech Stack' in response.data
