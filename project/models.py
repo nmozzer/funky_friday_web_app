@@ -34,8 +34,8 @@ class System(db.Model):
 class Improvement(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
-    system_id = db.Column(db.Integer, db.ForeignKey('systems.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    system_id = db.Column(db.Integer, db.ForeignKey('system.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     beans = db.Column(db.Integer)
     description = db.Column(db.Text)
     created_at = db.Column(db.DateTime(timezone=True),
