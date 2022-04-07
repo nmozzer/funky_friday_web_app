@@ -15,6 +15,39 @@
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Delete Improvement
             </button>
+            <div
+                class="modal fade"
+                id="staticBackdrop"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Delete System</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div>Deleting a System is permanent, are you sure?</div>
+                        </div>
+                        <div class="modal-footer">
+                            {% if current_user.type == 'admin' %}
+                            <a
+                                class="btn btn-primary"
+                                href="{{url_for('improvement.delete', improvement_id=improvement.id, system_id=improvement.system_id)}}"
+                                >Yes</a
+                            >
+                            {% else %}
+                            <div>You must be an admin to delete a System</div>
+                            {%endif%}
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         {% if came_from == 'improvements' %}
         <a class="btn btn-primary" href="{{url_for('improvement.improvements')}}">Back to Improvements</a>
@@ -22,44 +55,4 @@
         <a class="btn btn-primary" href="{{url_for('system.view', system_id=improvement.system_id)}}">Back to System</a>
         {%endif%} {% endblock %}
     </div>
-</div>
-
-<div
-    class="modal fade"
-    id="staticBackdrop"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Delete System</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div>Deleting a System is permanent, are you sure?</div>
-            </div>
-            <div class="modal-footer">
-                {% if current_user.type == 'admin' %}
-                <a
-                    class="btn btn-primary"
-                    href="{{url_for('improvement.delete', improvement_id=improvement.id, system_id=improvement.system_id)}}"
-                    >Yes</a
-                >
-                {% else %}
-                <div>You must be an admin to delete a System</div>
-                {%endif%}
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div>
-    <div>{{system.name}}</div>
-    <div>{{system.system_health}}</div>
-    <div>{{system.priority}}</div>
 </div>
