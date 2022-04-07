@@ -22,10 +22,13 @@ def create_app(test=False):
         app.config.from_object('config.ProdConfig')
 
     init_plugins(app)
-    init_blueprints(app)
 
-    db.create_all()
-    return app
+    with app.app_context():
+
+        init_blueprints(app)
+
+        db.create_all()
+        return app
 
 def init_plugins(app):
     db.init_app(app)
