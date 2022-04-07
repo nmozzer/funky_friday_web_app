@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager 
@@ -10,6 +10,8 @@ import os
 
 def create_app(test=False):
     app = Flask(__name__, static_folder='static')
+
+    setup_error_handling(app)
 
     flask_env = os.getenv('FLASK_ENV', None)
     if test:
@@ -52,3 +54,12 @@ def init_blueprints(app):
 
     from .home.routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+def setup_error_handling(app):
+    app.register_error_handler(404, page_not_found)
+    app.register_error_handler(500, page_error)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+def page_error(e):
+    return render_template('500.html'), 500

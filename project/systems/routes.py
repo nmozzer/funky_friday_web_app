@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, abort
 from flask import current_app as app
 from flask_login import current_user, login_required
 from .. import db
@@ -6,6 +6,10 @@ from ..models import System, Improvement
 from sqlalchemy import asc
 
 system = Blueprint('system', __name__, template_folder='templates', static_folder='static')
+
+@system.errorhandler(500)
+def internal_error(error):
+    return render_template('500.html', error=error), 500
 
 @system.route('/systems')
 @login_required
@@ -24,8 +28,10 @@ def systems():
     
 
     all_systems = db.session.query(System).order_by(asc(System.priority))
-
-    return render_template('systems.html', systems=all_systems)
+    try: 
+        return render_template('systems.html', systems=all_systems)
+    except Exception as e:
+        abort(500)
 
 @system.route('/systems/view')
 @login_required
@@ -48,7 +54,10 @@ def view():
     system = System.query.filter_by(id=system_id).first()
     improvements = Improvement.query.filter_by(system_id=system_id).all()
 
-    return render_template('system_view.html', system=system, improvements=improvements)
+    try: 
+        return render_template('system_view.html', system=system, improvements=improvements)
+    except Exception as e:
+        abort(500)
 
 @system.route('/systems/create')
 @login_required
@@ -57,9 +66,14 @@ def create():
     system_health = ['Healthy', 'Needs Improvement', 'Unhealthy']
     languages = ['Perl', 'Java', 'Typescript']
     tech_stacks = ['NAWS', 'MAWS']
-    return render_template('create_system.html', 
-    priorities=priorities, system_health=system_health,
-    languages=languages, tech_stacks=tech_stacks)
+
+    try: 
+        return render_template('create_system.html', 
+        priorities=priorities, system_health=system_health,
+        languages=languages, tech_stacks=tech_stacks)
+    except Exception as e:
+        abort(500)
+   
 
 @system.route('/systems/create', methods=['POST'])
 @login_required
@@ -81,7 +95,10 @@ def create_post():
 
     db.session.add(new_system)
     db.session.commit()
-    return redirect(url_for('.systems', system_add='successful'))
+    try: 
+        return redirect(url_for('.systems', system_add='successful'))
+    except Exception as e:
+        abort(500)
 
 @system.route('/systems/edit')
 @login_required
@@ -93,9 +110,13 @@ def edit():
     system_health = ['Healthy', 'Needs Improvement', 'Unhealthy']
     languages = ['Perl', 'Java', 'Typescript']
     tech_stacks = ['NAWS', 'MAWS']
-    return render_template('edit_system.html', 
-    priorities=priorities, system_health=system_health,
-    languages=languages, tech_stacks=tech_stacks, system=system)
+    try: 
+        return render_template('edit_system.html', 
+        priorities=priorities, system_health=system_health,
+        languages=languages, tech_stacks=tech_stacks, system=system)
+    except Exception as e:
+        abort(500)
+    
 
 @system.route('/systems/edit', methods=['POST'])
 @login_required
@@ -112,7 +133,10 @@ def edit_post():
     System.query.filter_by(id=system_id).update(dict(name=name, system_health=health, priority=priority, language=language, tech_stack=tech_stack, description=description))
 
     db.session.commit()
-    return redirect(url_for('.systems', system_edit='successful', system_id=system_id))
+    try: 
+        return redirect(url_for('.systems', system_edit='successful', system_id=system_id))
+    except Exception as e:
+        abort(500)
 
 @system.route('/systems/delete')
 @login_required
@@ -123,8 +147,14 @@ def delete():
 
         db.session.delete(system);
         db.session.commit()
-        return redirect(url_for('.systems', system_delete='successful'))
+        try: 
+            return redirect(url_for('.systems', system_delete='successful'))
+        except Exception as e:
+            abort(500)
 
-    return redirect(url_for('.systems', system_delete='unsuccessful'))
+        try: 
+            return redirect(url_for('.systems', system_delete='unsuccessful'))
+        except Exception as e:
+            abort(500)
 
 
