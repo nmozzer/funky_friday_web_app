@@ -24,6 +24,7 @@ def create_app(test=False):
     init_plugins(app)
     init_blueprints(app)
 
+    db.create_all()
     return app
 
 def init_plugins(app):
