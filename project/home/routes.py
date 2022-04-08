@@ -6,7 +6,7 @@ main = Blueprint('main', __name__, template_folder='templates', static_folder='s
 
 @main.errorhandler(500)
 def internal_error(error):
-    return render_template('../templates/500.html', error=error), 500
+    return render_template('500.html', error=error), 500
 
 @main.route('/')
 @login_required
