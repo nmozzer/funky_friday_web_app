@@ -1,6 +1,13 @@
-{% extends "base.html" %} {% block content %} {% with messages = get_flashed_messages() %} {% if messages %}
-<div class="alert alert-warning">{{ messages[0] }}</div>
-{% endif %} {% endwith %}
+{% extends "base.html" %} {% block content %} 
+{% with messages = get_flashed_messages() %} 
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">{{ messages[0] }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %} 
+{% endwith %}
+
+<div class="container">
 <div class="alert alert-danger"><a href="{{ url_for('system.create') }}">Add a new System</a></div>
 <div class="systems">
     {% for system in systems %}
@@ -53,6 +60,7 @@
        
     </div>
     {% endfor %}
-
-    {% endblock %}
 </div>
+</div>
+{% endblock %}
+
