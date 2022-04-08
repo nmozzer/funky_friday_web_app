@@ -15,7 +15,7 @@
         <label>Priority (1 is high)</label>
         <div class="field">
             <div class="control">
-                <select name="priority">
+                <select class="select" name="priority">
                     {% for priority in priorities%}
                     <option value="{{ system.priority }}" selected>{{ priority }}</option>
                     {% endfor %}
@@ -25,7 +25,7 @@
         <label>System Health</label>
         <div class="field">
             <div class="control">
-                <select name="system_health">
+                <select class="select" name="system_health">
                     {% for health in system_health%}
                     <option value="{{ system.system_health }}" selected>{{ health }}</option>
                     {% endfor %}
@@ -35,7 +35,7 @@
         <label>System Language</label>
         <div class="field">
             <div class="control">
-                <select name="language">
+                <select class="select" name="language">
                     {% for language in languages%}
                     <option value="{{ system.language }}" selected>{{ language }}</option>
                     {% endfor %}
@@ -45,7 +45,7 @@
         <label>Tech Stack</label>
         <div class="field">
             <div class="control">
-                <select name="tech_stack">
+                <select class="select" name="tech_stack">
                     {% for tech_stack in tech_stacks%}
                     <option value="{{ system.tech_stack }}" selected>{{ tech_stack }}</option>
                     {% endfor %}
@@ -55,8 +55,12 @@
         <label>System Description</label>
         <div class="field">
             <div class="control">
-                <textarea class="input is-large" type="textarea" name="description" value="{{system.description}}">
-                </textarea>
+                <textarea
+                    class="textarea input is-medium"
+                    type="textarea"
+                    name="description"
+                    value="{{system.description}}"
+                ></textarea>
             </div>
         </div>
         <div class="field">
